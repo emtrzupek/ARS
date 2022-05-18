@@ -13,7 +13,7 @@ public class Airport implements Serializable{
     private String state;
     private int timeOffset;
     //ordered by timezone
-    private String[] stateList = {"California", "Washington", "Oregon", "Nevada", "Montana", "Idaho",
+    private static String[] stateList = {"California", "Washington", "Oregon", "Nevada", "Montana", "Idaho",
                                   "Wyoming", "Utah", "Colorado", "Arizona", "New Mexico",
                                   "North Dakota", "South Dakota", "Nebraska", "Kansas",
                                   "Oklahoma", "Texas", "Minnesota", "Iowa", "Missouri", "Arkansas",
