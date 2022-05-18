@@ -6,7 +6,8 @@
 
 # BlueJ files
 *.ctxt
-
+#Weird file getting pushed
+.DS_Store
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
