@@ -38,11 +38,7 @@ public class Flight {
     }
 
     public void changeArrivalAirport(Airport newAirport) {
-        if (newAirport.getCity() == arrivalAirport.getCity()) {
             arrivalAirport = newAirport;
-            return;
-        }
-        System.out.println(newAirport + " is an invalid airport, cannot switch city flight is going to.");
     }
 
     public Airport getDepartureAirport() {
