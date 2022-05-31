@@ -10,7 +10,6 @@ public class TestFlight {
         f1.delayFlight(120, 32, 40);
         System.out.println(f1);
         f1.changeArrivalAirport(new Airport("Shivaji International Airport", "Mumbai", "Maharashtra"));
-        f1.changeDepartureAirport(new Airport("Orlando International New", "Orlando", "Florida"));
         System.out.println(f1);
     }
 }
