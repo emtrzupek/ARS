@@ -39,8 +39,12 @@ public class FlightDate {
    // Constructors
    public FlightDate(int year, int month, int day, int hour, int minute){
       
-      dateTime =  LocalDateTime.of(year, MONTH[month - 1], day, 
+      dateTime = LocalDateTime.of(year, MONTH[month - 1], day, 
                   hour, minute);
+   }
+
+   public FlightDate(LocalDateTime dateTime) {
+      this.dateTime = dateTime;
    }
    
    // Accessors

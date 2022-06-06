@@ -9,7 +9,8 @@
 import java.io.Serializable;
 
 public class Airport implements Serializable{
-    private String airportName;
+    private String symbol;
+    private String name; 
     private String city;
     private String state;
     private int timeOffset;
@@ -25,14 +26,19 @@ public class Airport implements Serializable{
                                   "Maine", "North Carolina", "South Carolina", "Gerogia", "Alabama", "Florida",
                                   "Alaska", "Hawaii"};
     // constructs an airport object with the given name, city, and state
-    public Airport(String name, String c, String s){
-        airportName = name;
+    public Airport(String symbol, String name, String c, String s){
+        this.name = name;
+        this.symbol = symbol;
         city = c;
         state = s;
     }
     // returns the name of the airport 
-    public String getName(){
-        return airportName;
+    public String getName() {
+        return name;
+    }
+
+    public String getSymbol() {
+        return symbol;
     }
     // returns city airport is in
     public String getCity(){
