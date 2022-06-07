@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -6,7 +7,7 @@ import java.util.ArrayList;
 // Period 2
 // 05/11/2022
 
-public class Flight {
+public class Flight implements Serializable {
     Airport departureAirport;
     Airport arrivalAirport;
     FlightDate departure; 
@@ -14,7 +15,7 @@ public class Flight {
     int flightNumber; 
     int capacity;
 
-    public Flight(Airport departureAirport, Airport arrivalAirport, FlightDate departure, FlightDate arrival, int capacity) {
+    public Flight(int flightNumber, Airport departureAirport, Airport arrivalAirport, FlightDate departure, FlightDate arrival, int capacity) {
         this.departureAirport = departureAirport;
         this.arrivalAirport = arrivalAirport;
         this.departure = departure;
