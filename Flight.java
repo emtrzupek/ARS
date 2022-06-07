@@ -16,6 +16,7 @@ public class Flight implements Serializable {
     int capacity;
 
     public Flight(int flightNumber, Airport departureAirport, Airport arrivalAirport, FlightDate departure, FlightDate arrival, int capacity) {
+        this.flightNumber = flightNumber;
         this.departureAirport = departureAirport;
         this.arrivalAirport = arrivalAirport;
         this.departure = departure;
