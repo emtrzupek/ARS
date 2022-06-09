@@ -78,6 +78,7 @@ public class Reservation implements Serializable {
             for (int i = 1; i < passengers.size() - 1; i++) {
                 returnVal += ", " + passengers.get(i).getFirstName() + " " + passengers.get(i).getLastName();
             }
+
             return "Reservations for " + returnVal + " and " + passengers.get(passengers.size() - 1).getFirstName() + " " + passengers.get(passengers.size() - 1).getLastName() + " at Flight " + flight.getFlightNumber();
         }
     }

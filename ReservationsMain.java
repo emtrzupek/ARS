@@ -401,6 +401,7 @@ public class ReservationsMain{
                     }
                 }
 	}
+
     public static String fuzzyMatch(String[] options, String match) {
         if (match.length() > 0) {
             int[] matches = new int[options.length];
