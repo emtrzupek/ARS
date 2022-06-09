@@ -78,6 +78,15 @@ public class Passenger implements Serializable{
       
       return (int)Math.floor(Math.random() * (max - min + 1)) + min;
    }
+   public void setID(int id) {
+      passengerID = id;
+   }
+   public void setAffinityNumber(int affinityNumber) {
+      this.affinityNumber = affinityNumber;
+   }
+   public void setMileageBalance(int mileageBalance) {
+      this.mileageBalance = mileageBalance;
+   }
    // toString
    public String toString(){
       String str = "ID: " + passengerID + ", " + lastName;

@@ -1,3 +1,11 @@
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
+public class CSVReading {
+    
+    public static void main(String[] args) {
+        
 import java.io.FileWriter;
 import java.io.IOError;
 import java.io.IOException;
@@ -8,23 +16,13 @@ import java.util.ArrayList;
 public class CSVReading {
     
     public static void main(String[] args) throws IOException{
-        
-    }
-
-    public static ArrayList<Flight> getFlights() {
-        ArrayList<Flight> flights = new ArrayList<>();
-        CSVReader csv = new CSVReader("Flights.csv");
-        String[] fields = csv.getFieldNames();
-        int records = csv.getNumberOfRecords();
-        for (int i = 0; i < records; i++) {
-            String[] nextRecord = csv.getRecord(i+1);
             int flightNumber = Integer.parseInt(nextRecord[0]);
             Airport departure = getAirportFromSymbol(nextRecord[1], airports);
             Airport arrival = getAirportFromSymbol(nextRecord[2], airports)
             FlightDate departureDate = new FlightDate(LocalDateTime.parse(nextRecord[3]));
             FlightDate arrivalDate = new FlightDate(LocalDateTime.parse(nextRecord[4]));
             int capacity = Integer.parseInt(nextRecord[5]);
-            flights.add(new Flight(flightNumber, departure, arrival, departureDate, arrivalDate, capacity));
+            flights.add(new Flight(flightNumber, departure, arrival, departureDate, arrivalDate, capacity)
         }
         return flights;
     }

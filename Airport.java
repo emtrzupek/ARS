@@ -73,4 +73,7 @@ public class Airport implements Serializable{
         }
         return timeOffset;
     }
+    public String toString() {
+        return getName() + ", " + getCity() + ", " + getState();
+    }
 }

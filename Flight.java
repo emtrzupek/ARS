@@ -16,12 +16,12 @@ public class Flight implements Serializable {
     int capacity;
 
     public Flight(int flightNumber, Airport departureAirport, Airport arrivalAirport, FlightDate departure, FlightDate arrival, int capacity) {
-        this.flightNumber = flightNumber;
         this.departureAirport = departureAirport;
         this.arrivalAirport = arrivalAirport;
         this.departure = departure;
         this.arrival = arrival;
         this.capacity = capacity;
+        this.flightNumber = flightNumber;
     }
 
     public void delayFlight(int days, int hours, int minutes) { // delays flights by days, hours minutes
@@ -66,7 +66,6 @@ public class Flight implements Serializable {
     public int getCapacity() {
         return capacity;
     }
-
     public String toString() {
         return "Flight #" + flightNumber + ", Departure: " + departureAirport.getName() + " - " + departure.getDatePretty() + " " + departure.getTimePretty() + ", Arrival: " + arrivalAirport.getName() + " - " + arrival.getDatePretty() + " " + arrival.getTimePretty();   
     }

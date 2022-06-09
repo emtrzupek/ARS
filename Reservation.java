@@ -16,6 +16,7 @@ public class Reservation implements Serializable {
                 }
             }
         }
+        p.sort((o1, o2) -> (o1.getFirstName() + " " + o1.getLastName()).compareTo((o2.getFirstName() + ", " + o2.getLastName())));
         passengers = p; // set instance variables
         flight = f;
         resNum++; // increments the next reservation id
@@ -24,7 +25,8 @@ public class Reservation implements Serializable {
     public Reservation() { // Constructor for empty passenger array
         passengers = new ArrayList<Passenger>();
         flight = null;
-        reservationNum = -1;
+        resNum++;
+        reservationNum = resNum;
     }
     public ArrayList<Passenger> getPassengers() {
         return passengers;
@@ -42,11 +44,13 @@ public class Reservation implements Serializable {
             }
         }
         passengers.add(newPas); // adds passenger to arraylist
+        passengers.sort((o1, o2) -> (o1.getFirstName() + " " + o1.getLastName()).compareTo((o2.getFirstName() + ", " + o2.getLastName())));
     }
     public void removePassenger(Passenger pas) throws Exception {
         for (int i = 0; i < passengers.size(); i++) { // loops through arraylist looking for matching passenger to remove
             if (passengers.get(i).getID() == pas.getID()) { // checks if passengers match
                 passengers.remove(i); // removes passenger from arraylist
+                passengers.sort((o1, o2) -> (o1.getFirstName() + " " + o1.getLastName()).compareTo((o2.getFirstName() + ", " + o2.getLastName())));
                 return; // end method
             }
         } 
@@ -54,6 +58,15 @@ public class Reservation implements Serializable {
     }
     public void changeFlight(Flight newFlight) { // change the flight
         flight = newFlight;
+    }
+    public void setReservationNumber(int num) {
+        reservationNum = num;
+        if (resNum < reservationNum) {
+            resNum = reservationNum;
+        }
+    }
+    public void changeResNum(int num) {
+        resNum = num;
     }
     public String toString() {
         if (passengers.size() == 0) { // if there are no passengers
@@ -65,7 +78,8 @@ public class Reservation implements Serializable {
             for (int i = 1; i < passengers.size() - 1; i++) {
                 returnVal += ", " + passengers.get(i).getFirstName() + " " + passengers.get(i).getLastName();
             }
-            return "Reservations for " + returnVal + " and " + passengers.get(passengers.size() - 1).getFirstName() + " " + passengers.get(passengers.size() - 1).getFirstName() + " at Flight " + flight.getFlightNumber();
+
+            return "Reservations for " + returnVal + " and " + passengers.get(passengers.size() - 1).getFirstName() + " " + passengers.get(passengers.size() - 1).getLastName() + " at Flight " + flight.getFlightNumber();
         }
     }
 
