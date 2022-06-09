@@ -81,7 +81,9 @@ public class ReservationsMain{
 
                            
                            list.sort(flightComparaer);
-                           System.out.println(list.toString().substring(1, list.toString().length() - 1).replace(", F", "\nF"));
+                            for (int i = 0; i < list.size(); i++) {
+                                System.out.println(list.get(i));
+                            }
                             break;
                         case 'b':
                             int choiceN=KB.nextInt();
@@ -185,7 +187,9 @@ public class ReservationsMain{
                         case 'a':            
                            ArrayList<Reservation> list=(ArrayList)reservationList.clone();
                            list.sort((a1,a2)->a1.getPassengers().toString().compareTo(a2.getPassengers().toString()));
-                           System.out.println(list.toString().substring(1, list.toString().length() - 1).replace(", R", "\nR"));
+                           for (int i = 0; i < list.size(); i++) {
+                               System.out.println(list.get(i));
+                           }
                             break;
                         case 'b':
                             int choiceN=KB.nextInt();
@@ -401,7 +405,6 @@ public class ReservationsMain{
                     }
                 }
 	}
-
     public static String fuzzyMatch(String[] options, String match) {
         if (match.length() > 0) {
             int[] matches = new int[options.length];
