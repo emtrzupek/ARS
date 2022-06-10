@@ -68,6 +68,40 @@ public class Reservation implements Serializable {
     public void changeResNum(int num) {
         resNum = num;
     }
+
+    public String resMenuFormat() {
+        String reservationString = "";
+        reservationString+="|    " + reservationNum + "    |";
+        String passengers_STRING = "";
+        for (int i = 0; i < passengers.size() - 1; i++) {
+            passengers_STRING+=passengers.get(i).getFirstName() + " " + passengers.get(i).getLastName() + ", ";
+        }
+
+        passengers_STRING += passengers.get(passengers.size()-1).getFirstName() + " " + passengers.get(passengers.size()-1).getLastName();
+        int spaces = (34 - passengers_STRING.length())/2;
+        
+        if (spaces > 0) {
+            for (int i = 0; i < spaces; i++) {
+                reservationString += " ";
+            }
+        }
+        else {
+            reservationString += " ";
+        }
+        reservationString += passengers_STRING;
+        if (spaces > 0) {
+            for (int i = 0; i < spaces; i++) {
+                reservationString += " ";
+            }
+        }
+        else {
+            reservationString += " ";
+        }
+        reservationString += "| ";
+        reservationString += flight + " |";
+        return reservationString;
+    }
+
     public String toString() {
         if (passengers.size() == 0) { // if there are no passengers
             return "Empty reservation at flight " + flight.getFlightNumber();
@@ -79,7 +113,7 @@ public class Reservation implements Serializable {
                 returnVal += ", " + passengers.get(i).getFirstName() + " " + passengers.get(i).getLastName();
             }
 
-            return "Reservations for " + returnVal + " and " + passengers.get(passengers.size() - 1).getFirstName() + " " + passengers.get(passengers.size() - 1).getLastName() + " at Flight " + flight.getFlightNumber();
+            return "Reservations for " + returnVal + " and " + passengers.get(passengers.size() - 1).getFirstName() + " " + passengers.get(passengers.size() - 1).getLastName() + " at " + flight;
         }
     }
 

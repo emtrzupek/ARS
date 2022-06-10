@@ -26,7 +26,7 @@ public class Airport implements Serializable{
                                   "Maine", "North Carolina", "South Carolina", "Gerogia", "Alabama", "Florida",
                                   "Alaska", "Hawaii"};
     // constructs an airport object with the given name, city, and state
-    public Airport(String symbol, String name, String c, String s){
+    public Airport(String name, String symbol, String c, String s){
         this.name = name;
         this.symbol = symbol;
         city = c;
@@ -74,6 +74,6 @@ public class Airport implements Serializable{
         return timeOffset;
     }
     public String toString() {
-        return getName() + ", " + getCity() + ", " + getState();
+        return getName() + "-" + getSymbol() + ": " + getCity() + ", " + getState();
     }
 }

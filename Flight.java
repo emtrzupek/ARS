@@ -67,6 +67,6 @@ public class Flight implements Serializable {
         return capacity;
     }
     public String toString() {
-        return "Flight #" + flightNumber + ", Departure: " + departureAirport.getName() + " - " + departure.getDatePretty() + " " + departure.getTimePretty() + ", Arrival: " + arrivalAirport.getName() + " - " + arrival.getDatePretty() + " " + arrival.getTimePretty();   
+        return "Flight #" + flightNumber + " | Departure: " + departureAirport.getName() + " - " + departure.getDatePretty() + " " + departure.getTimePretty() + " | Arrival: " + arrivalAirport.getName() + " - " + arrival.getDatePretty() + " " + arrival.getTimePretty();   
     }
 }
