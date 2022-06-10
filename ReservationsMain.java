@@ -174,6 +174,7 @@ public class ReservationsMain{
 
    }
    private static void manageReservations(Scanner KB) throws Exception {
+            ArrayList<Reservation> list=(ArrayList)reservationList.clone();
             continuePoint:
             while(true){
                     System.out.print("what would you like to do\n"
@@ -185,7 +186,6 @@ public class ReservationsMain{
                     char choice=fullChoice.toLowerCase().charAt(0);
                     switch (choice){
                         case 'a':            
-                           ArrayList<Reservation> list=(ArrayList)reservationList.clone();
                            list.sort((a1,a2)->a1.getPassengers().toString().compareTo(a2.getPassengers().toString()));
                            for (int i = 0; i < list.size(); i++) {
                                System.out.println(list.get(i));
@@ -296,7 +296,11 @@ public class ReservationsMain{
                                 }
                             }
                             break;
-                        case 'e':
+                        case 'e':       
+                           list.sort((a1,a2)->a1.getPassengers().toString().compareTo(a2.getPassengers().toString()));
+                           for (int i = 0; i < list.size(); i++) {
+                               System.out.println(list.get(i));
+                           }
                             System.out.print("ID of reservation to delete: ");
                             int IDD = KB.nextInt();
                             for (int i = 0; i < reservationList.size(); i++) {
