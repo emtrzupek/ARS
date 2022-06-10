@@ -177,7 +177,7 @@ public class ReservationsMain{
             continuePoint:
             while(true){
                     System.out.print("what would you like to do\n"
-                            + "The (A) print in Alphabetical order, (B) search for a reservation number, (C) search for a reservation name, (D) create a new reservation, (E) delete reservation,   (F) cancel\n"
+                            + "The (A) print in Alphabetical order, (B) search for a reservation number, (C) search for a reservation name, (D) create a new reservation, (E) delete reservation,   (F) delete passenger, (G) cancel\n"
                             + "you choose: ");
                     String fullChoice=KB.nextLine();
                     if(fullChoice.length()<1)
@@ -315,10 +315,33 @@ public class ReservationsMain{
                             }
                             break;
                         case 'f':
+                        
+                                    
+                           ArrayList<Passenger> Alist=(ArrayList)passengerList.clone();
+                           Alist.sort((a1,a2)->a1.toString().compareTo(a2.toString()));         
+                           String[] PassengerFull=new String[Alist.size()];
+                           for (int i = 0; i < Alist.size(); i++) {
+                               PassengerFull[i]=(Alist.get(i).getFirstName()+Alist.get(i).getLastName());
+                           }
+                           for (int i = 0; i < Alist.size(); i++) {
+                               System.out.println(Alist.get(i));
+                           }
+                            System.out.print("name of passenger to delete: ");
+                            String STR = KB.next();
+                            STR=fuzzyMatch(PassengerFull,STR);
+                            for (int i = 0; i < passengerList.size(); i++) {
+                                if (STR == passengerList.get(i).toString()) {
+                                    passengerList.remove(i);
+                                    i--;
+                                }
+                            }
+                            break;
+                        case 'g':
                             break continuePoint;
                         default:
                             break;
                     }
+                    
                 }
 
    }
