@@ -135,7 +135,7 @@ public class ReservationsMain {
         continuePoint: while (true) {
             System.out.println("\nWelcome to Theta Airlines (formerly Boing Airlines)");
             System.out.println("\nWhat would you like to do?\n"
-                    + "(P) print things\n(R) Manage reservations\n(S) Manage passengers\n(F) Manage flights\n(A) Manage airports\n(Q) Quit\n");
+                    + "(P) print things\n(R) Manage reservations\n(F) Manage flights\n(Q) Quit\n");
             System.out.print("Select: ");
             String fullChoice = KB.nextLine();
             if (fullChoice.length() < 1)
