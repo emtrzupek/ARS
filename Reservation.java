@@ -22,12 +22,15 @@ public class Reservation implements Serializable {
         resNum++; // increments the next reservation id
         reservationNum = resNum;
     }
+    
+
     public Reservation() { // Constructor for empty passenger array
         passengers = new ArrayList<Passenger>();
         flight = null;
         resNum++;
         reservationNum = resNum;
     }
+
     public ArrayList<Passenger> getPassengers() {
         return passengers;
     }
@@ -104,16 +107,16 @@ public class Reservation implements Serializable {
 
     public String toString() {
         if (passengers.size() == 0) { // if there are no passengers
-            return "Empty reservation at flight " + flight.getFlightNumber();
+            return "RES_NUM: " + reservationNum + " - " +"Empty reservation at flight " + flight.getFlightNumber();
         } else if (passengers.size() == 1) { // if there is one passenger
-            return "Reservation for " + passengers.get(0).getFirstName() + " " + passengers.get(0).getLastName() + " at flight " + flight.getFlightNumber();
+            return "RES_NUM: " + reservationNum + " - " + "Reservation for " + passengers.get(0).getFirstName() + " " + passengers.get(0).getLastName() + " at flight " + flight.toString();
         } else { // if there are multiple passengers
             String returnVal = passengers.get(0).getFirstName() + " " + passengers.get(0).getLastName();
             for (int i = 1; i < passengers.size() - 1; i++) {
                 returnVal += ", " + passengers.get(i).getFirstName() + " " + passengers.get(i).getLastName();
             }
 
-            return "Reservations for " + returnVal + " and " + passengers.get(passengers.size() - 1).getFirstName() + " " + passengers.get(passengers.size() - 1).getLastName() + " at " + flight;
+            return "RES_NUM: " + reservationNum + " - " + "Reservations for " + returnVal + " and " + passengers.get(passengers.size() - 1).getFirstName() + " " + passengers.get(passengers.size() - 1).getLastName() + " at " + flight;
         }
     }
 

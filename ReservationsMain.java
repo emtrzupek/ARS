@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.*;
 
 import java.io.*;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -17,25 +18,116 @@ import java.io.*;
  */
 public class ReservationsMain {
     private static final String FILENAME = "Passenger.dat";
-    private static ArrayList<Flight> flightList;
-    private static ArrayList<Airport> airportList;
-    private static ArrayList<Reservation> reservationList;
-    private static ArrayList<Passenger> passengerList;
+    private static ArrayList<Flight> flightList = new ArrayList<>();
+    private static ArrayList<Airport> airportList = new ArrayList<>();
+    private static ArrayList<Reservation> reservationList = new ArrayList<>();
+    private static ArrayList<Passenger> passengerList = new ArrayList<>();
 
     public static void main(String args[]) throws Exception, FileNotFoundException, IOException {
         // readFromFile();
         // String[][] data = {{"1", "2"}, {"3", "4"}};
         // writeToExcelTMSpreadsheet("Airports.csv", data);
-        airportList = airportFromArray(readFromExcelTMSpreadsheet("Airports.csv"));
-        flightList = flightsFromArray(readFromExcelTMSpreadsheet("Flights.csv"));
-        passengerList = passengersFromArray(readFromExcelTMSpreadsheet("Passengers.csv"));
-        reservationList = reservationsFromArray(readFromExcelTMSpreadsheet("Reservation.csv"));
+        // airportList = airportFromArray(readFromExcelTMSpreadsheet("Airports.csv"));
+        // flightList = flightsFromArray(readFromExcelTMSpreadsheet("Flights.csv"));
+        // passengerList =
+        // passengersFromArray(readFromExcelTMSpreadsheet("Passengers.csv"));
+        // reservationList =
+        // reservationsFromArray(readFromExcelTMSpreadsheet("Reservation.csv"));
+
+        getAirports(airportList);
+        getFlights(flightList);
+        getPassengers(passengerList);
+        getReservations(reservationList);
+
         /*
          * flightList=new ArrayList<Flight>();
          * airportList=new ArrayList<Airport>();
          * passengerList=new ArrayList<Passenger>();
          */
         mainMenu();
+    }
+
+    public static void getPassengers(ArrayList<Passenger> p) {
+        CSVReader csv = new CSVReader("Passengers.csv");
+        int records = csv.getNumberOfRecords();
+        p.clear();
+        for (int i = 0; i < records; i++) {
+            String[] nextRecord = csv.getRecord(i + 1);
+            String last = nextRecord[0];
+            String first = nextRecord[1];
+            String member = nextRecord[2];
+            boolean isMember = false;
+            if (member.equals("yes")) {
+                isMember = true;
+            }
+            int id = Integer.parseInt(nextRecord[3]);
+            Passenger pass = new Passenger(last, first, isMember);
+            pass.setID(id);
+            pass.setAffinityNumber(Integer.parseInt(nextRecord[4]));
+            p.add(pass);
+        }
+    }
+
+    public static void getAirports(ArrayList<Airport> a) {
+        CSVReader csv = new CSVReader("Airports.csv");
+        int records = csv.getNumberOfRecords();
+        a.clear();
+        for (int i = 0; i < records; i++) {
+            String[] nextRecord = csv.getRecord(i + 1);
+            String name = nextRecord[0];
+            String symbol = nextRecord[1];
+            String city = nextRecord[2];
+            String state = nextRecord[3];
+            a.add(new Airport(name, symbol, city, state));
+        }
+    }
+
+    public static void getReservations(ArrayList<Reservation> reservations) throws Exception {
+        CSVReader csv = new CSVReader("Reservation.csv");
+        int records = csv.getNumberOfRecords();
+        reservations.clear();
+        for (int i = 0; i < records; i++) {
+            String[] nextRecord = csv.getRecord(i + 1);
+            int resNum = Integer.parseInt(nextRecord[0]);
+            Flight flight = findFlightByNum(Integer.parseInt(nextRecord[1]));
+            ArrayList<Passenger> passengers = new ArrayList<>();
+            String pIds = nextRecord[2];
+            Scanner scan = new Scanner(pIds);
+            while (scan.hasNext()) {
+                int id = scan.nextInt();
+                Passenger p = findPassengerByID(id);
+                passengers.add(p);
+            }
+            Reservation r = new Reservation(passengers, flight);
+            r.setReservationNumber(resNum);
+            reservations.add(r);
+        }
+    }
+
+    public static Airport getAirportFromSymbol(String symbol) {
+        for (Airport a : airportList) {
+            if (a.getSymbol().equalsIgnoreCase(symbol)) {
+                return a;
+            }
+        }
+        System.out.println("COULD NOT FIND AIRPORT FROM SYMBOL " + symbol + " CHECK DATABASE");
+        return null;
+    }
+
+    public static void getFlights(ArrayList<Flight> flights) {
+        CSVReader csv = new CSVReader("Flights.csv");
+        int records = csv.getNumberOfRecords();
+        flights.clear();
+        for (int i = 0; i < records; i++) {
+            String[] nextRecord = csv.getRecord(i + 1);
+            int flightNumber = Integer.parseInt(nextRecord[0]);
+            Airport departure = getAirportFromSymbol(nextRecord[1]);
+            Airport arrival = getAirportFromSymbol(nextRecord[2]);
+            FlightDate departureDate = new FlightDate(LocalDateTime.parse(nextRecord[3]));
+            FlightDate arrivalDate = new FlightDate(LocalDateTime.parse(nextRecord[4]));
+            int capacity = Integer.parseInt(nextRecord[5]);
+            flights.add(new Flight(flightNumber, departure, arrival, departureDate, arrivalDate, capacity));
+        }
     }
 
     private static void mainMenu() throws Exception {
@@ -74,43 +166,49 @@ public class ReservationsMain {
         continuePoint:
 
         while (true) {
-            System.out.print("Flight Management\n"
-                    + "(A) Print in Alphabetical order\n(B) Search for a flight number\n(C) search for a flight name\n(D) create a new flight\n(E) delete flight\n(Q) cancel\n"
-                    + "Select: ");
+            System.out.println("Flight Management\n"
+                    + "(A) Print in Alphabetical order\n(B) Search for a flight number\n(C) search for a flight name\n(D) create a new flight\n(E) delete flight\n(Q) cancel\n");
+            System.out.print("Select: ");
             String fullChoice = KB.nextLine();
             if (fullChoice.length() < 1)
                 continue;
             char choice = fullChoice.toLowerCase().charAt(0);
-            System.out.println();
             switch (choice) {
                 case 'a':
-
+                    System.out.println();
                     ArrayList<Flight> list = (ArrayList) flightList.clone();
 
                     list.sort(flightComparaer);
                     for (int i = 0; i < list.size(); i++) {
                         System.out.println(list.get(i));
                     }
+                    System.out.println();
                     break;
                 case 'b':
+                    System.out.print("Flight number: ");
                     int choiceN = KB.nextInt();
+                    System.out.println();
                     for (Flight R : flightList) {
                         if (R.getFlightNumber() == choiceN) {
                             System.out.println(R);
                         }
                     }
+                    System.out.println();
+                    KB.nextLine();
                     break;
                 case 'c':
                     System.out.print("Departure airport: ");
                     String dep = KB.nextLine().toUpperCase();
-                    System.out.print("Arrival airport:");
+                    System.out.print("Arrival airport: ");
                     String arr = KB.nextLine().toUpperCase();
+                    System.out.println();
                     for (Flight f : flightList) {
-                        if (f.getArrivalAirport().getName().toUpperCase().equals(arr)
-                                && f.getDepartureAirport().getName().toUpperCase().equals(dep)) {
+                        if (f.getArrivalAirport().getSymbol().toUpperCase().equals(arr)
+                                && f.getDepartureAirport().getSymbol().toUpperCase().equals(dep)) {
                             System.out.println(f);
                         }
                     }
+                    System.out.println();
                     break;
 
                 case 'd':
@@ -147,42 +245,44 @@ public class ReservationsMain {
                     max++;
                     Airport de = null;
                     for (Airport a : airportList) {
-                        if (a.getName().equalsIgnoreCase(dep2)) {
+                        if (a.getSymbol().equalsIgnoreCase(dep2)) {
                             de = a;
                         }
                     }
                     Airport ar = null;
                     for (Airport a : airportList) {
-                        if (a.getName().equalsIgnoreCase(arr2)) {
+                        if (a.getSymbol().equalsIgnoreCase(arr2)) {
                             ar = a;
                         }
                     }
                     System.out.print("Capacity: ");
                     int cap = KB.nextInt();
                     flightList.add(new Flight(max, de, ar, depp, arrr, cap));
-                    String[] append = { max + "", de.getName(), ar.getName(), depp.toString(), arrr.toString(),
+                    String[] append = { max + "", de.getSymbol(), ar.getSymbol(), depp.toString(), arrr.toString(),
                             cap + "" };
                     addCSVLine("Flights.csv", append);
                     break;
                 case 'e':
                     System.out.print("Number of flight to delete: ");
                     int num2 = KB.nextInt();
-                    for (int i = 0; i < flightList.size(); i++) {
-                        if (flightList.get(i).getFlightNumber() == num2) {
-                            flightList.remove(i);
+                    ArrayList<Flight> flightData = (ArrayList) flightList.clone();
+                    for (int i = 0; i < flightData.size(); i++) {
+                        if (flightData.get(i).getFlightNumber() == num2) {
+                            flightData.remove(i);
                             removeCSVLine("Flights.csv", i + 1);
                             i--;
                         }
                     }
-                    ArrayList<String[]> reservationData = readFromExcelTMSpreadsheet("Reservation.csv");
+                    ArrayList<Reservation> reservationData = (ArrayList) reservationList.clone();
                     for (int i = 0; i < reservationData.size(); i++) {
-                        if (Integer.parseInt(reservationData.get(i)[1]) == num2) {
-                            removeCSVLine("Reservation.csv", i);
-                            reservationData = readFromExcelTMSpreadsheet("Reservation.csv");
+                        if (reservationData.get(i).getFlight().getFlightNumber() == num2) {
+                            reservationData.remove(i);
+                            removeCSVLine("Reservation.csv", i+1);
                             i--;
                         }
                     }
-                    reservationList = reservationsFromArray(reservationData);
+                    getFlights(flightList);
+                    getReservations(reservationList);
                     break;
                 case 'q':
                     break continuePoint;
@@ -205,28 +305,39 @@ public class ReservationsMain {
             char choice = fullChoice.toLowerCase().charAt(0);
             switch (choice) {
                 case 'a':
+                    list = (ArrayList) reservationList.clone();
+                    System.out.println();
+                    System.out.println(
+                            "| RES_NUM |            PASSENGERS             | FLIGHT NUM |               DEPARTURE                 |                ARRIVAL               |");
+                    System.out.println(
+                            "----------------------------------------------------------------------------------------------------------------------------------------------");
                     list.sort((a1, a2) -> a1.getPassengers().toString().compareTo(a2.getPassengers().toString()));
                     for (int i = 0; i < list.size(); i++) {
-                        System.out.println(list.get(i));
+                        System.out.println(list.get(i).resMenuFormat());
                     }
                     break;
                 case 'b':
+                    System.out.print("Enter reservation number: ");
                     int choiceN = KB.nextInt();
+                    System.out.println();
                     for (Reservation R : reservationList) {
                         if (R.getReservationNumber() == choiceN) {
                             System.out.println(R);
                         }
                     }
+                    System.out.println();
                     break;
                 case 'c':
+                    System.out.print("Name in reservation");
                     String name = KB.nextLine();
+                    System.out.println();
                     String[] passengers = new String[passengerList.size() * 2];
                     for (int i = 0; i < passengerList.size(); i++) {
                         passengers[i] = passengerList.get(i).getFirstName();
                         passengers[i + passengerList.size()] = passengerList.get(i).getLastName();
                     }
                     name = fuzzyMatch(passengers, name);
-                    System.out.println(name);
+                    System.out.println("Autocorrected: " + name);
                     if (name == null) {
                         System.out.println("Reservation not found");
                     } else {
@@ -235,6 +346,7 @@ public class ReservationsMain {
                                 for (Reservation r : reservationList) {
                                     if (r.getPassengers().indexOf(passengerList.get(i)) != -1) {
                                         System.out.println(r);
+                                        System.out.println();
                                     }
                                 }
                             }
@@ -244,6 +356,9 @@ public class ReservationsMain {
 
                 case 'd':
                     reservationList.add(new Reservation());
+                    for (Reservation r: reservationList) {
+
+                    }
                     System.out.println("Please select your flight:");
                     for (int i = 0; i < flightList.size(); i++) {
                         System.out.println(flightList.get(i));
@@ -258,6 +373,7 @@ public class ReservationsMain {
                     }
                     reservationList.get(reservationList.size() - 1).changeFlight(f);
                     Boolean c = true;
+                    ArrayList<Integer> ids = new ArrayList<>();
                     top: while (true) {
                         if (c) {
                             System.out.print("(N)ew passenger or (e)xisting passenger: ");
@@ -281,15 +397,16 @@ public class ReservationsMain {
                                 String[] temp = { p2.getLastName(), p2.getFirstName(),
                                         p2.getAffinityMember() ? "yes" : "no", p2.getID() + "",
                                         p2.getAffinityNumber() + "", p2.getMileage() + "" };
+                                ids.add(p2.getID());
                                 addCSVLine("Passengers.csv", temp);
                                 System.out.print("Add another passenger (y/n): ");
                                 String casew = KB.nextLine();
-                                String[] temp2 = {
-                                        "" + reservationList.get(reservationList.size() - 1).getReservationNumber(),
-                                        "" + reservationList.get(reservationList.size() - 1).getFlight()
-                                                .getFlightNumber(),
-                                        p2.getID() + "" };
-                                addCSVLine("Reservation.csv", temp2);
+                                // String[] temp2 = {
+                                // "" + reservationList.get(reservationList.size() - 1).getReservationNumber(),
+                                // "" + reservationList.get(reservationList.size() - 1).getFlight()
+                                // .getFlightNumber(),
+                                // p2.getID() + "" };
+                                // addCSVLine("Reservation.csv", temp2);
                                 c = true;
                                 if (!casew.equalsIgnoreCase("y")) {
                                     break top;
@@ -308,13 +425,14 @@ public class ReservationsMain {
                                 for (Passenger p : passengerList) {
                                     if ((p.getFirstName() + " " + p.getLastName()).equals(fullName2)) {
                                         reservationList.get(reservationList.size() - 1).addPassenger(p);
-                                        String[] temp3 = {
-                                                "" + reservationList.get(reservationList.size() - 1)
-                                                        .getReservationNumber(),
-                                                "" + reservationList.get(reservationList.size() - 1).getFlight()
-                                                        .getFlightNumber(),
-                                                p.getID() + "" };
-                                        addCSVLine("Reservation.csv", temp3);
+                                        // String[] temp3 = {
+                                        // "" + reservationList.get(reservationList.size() - 1)
+                                        // .getReservationNumber(),
+                                        // "" + reservationList.get(reservationList.size() - 1).getFlight()
+                                        // .getFlightNumber(),
+                                        // p.getID() + "" };
+                                        // addCSVLine("Reservation.csv", temp3);
+                                        ids.add(p.getID());
                                     }
                                 }
                                 System.out.print("Add another passenger (y/n): ");
@@ -328,6 +446,20 @@ public class ReservationsMain {
                                 break;
                         }
                     }
+                    String ids_in_res = "";
+                    for (int i : ids) {
+                        ids_in_res += i + " ";
+                    }
+                    String[] temp3 = {
+                            "" + reservationList.get(reservationList.size() - 1)
+                                    .getReservationNumber(),
+                            "" + reservationList.get(reservationList.size() - 1).getFlight()
+                                    .getFlightNumber(),
+                            ids_in_res + "" };
+                    addCSVLine("Reservation.csv", temp3);
+                    System.out.println("UPDATED RESERVATIONS");
+                    getPassengers(passengerList);
+                    getReservations(reservationList);
                     break;
                 case 'e':
                     list.sort((a1, a2) -> a1.getPassengers().toString().compareTo(a2.getPassengers().toString()));
@@ -341,11 +473,12 @@ public class ReservationsMain {
                             reservationList.remove(i);
                             i--;
                         }
-                        ArrayList<String[]> data4 = readFromExcelTMSpreadsheet("Reservation.csv");
+                        ArrayList<Reservation> data4 = new ArrayList<>();
+                        getReservations(data4);
                         for (int j = 0; j < data4.size(); j++) {
-                            if (Integer.parseInt(data4.get(j)[0]) == IDD) {
-                                removeCSVLine("Reservation.csv", j);
-                                data4 = readFromExcelTMSpreadsheet("Reservation.csv");
+                            if (data4.get(j).getReservationNumber() == IDD) {
+                                removeCSVLine("Reservation.csv", j+1);
+                                getReservations(data4);
                                 j--;
                             }
                         }
@@ -450,20 +583,28 @@ public class ReservationsMain {
                     System.out.println();
                     break;
                 case 'f':
+                    System.out.println();
                     for (Flight f : flightList)
                         System.out.println(f.toString());
+                    System.out.println();
                     break;
                 case 'p':
+                System.out.println();
+                    System.out.println();
                     for (Passenger p : passengerList)
                         System.out.println(p.toString());
+                    System.out.println();
                     break;
                 case 'a':
+                    System.out.println();
                     for (Airport a : airportList)
                         System.out.println(a.toString());
+                    System.out.println();
                     break;
                 case 'g':
                     System.out.print("Which flight ");
                     int flightNum = KB.nextInt();
+                    System.out.println();
                     System.out.println("This is the data for flight " + flightNum);
                     for (Reservation r : reservationList) {
                         if (r.getFlight().getFlightNumber() == flightNum) {
@@ -472,6 +613,7 @@ public class ReservationsMain {
                             }
                         }
                     }
+                    System.out.println();
                     break;
                 case 'q':
                     break continuePoint;

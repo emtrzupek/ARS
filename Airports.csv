@@ -1,4 +1,3 @@
-Sea-Tac International Airport,SEA,Seattle,Washington
-Los Angeles Airport,LAX,Los Angeles,Nevada
-Denver International Airport,DEN,Denver,Colorado
-
+name,symbol,city,state
+SeaTac International Airport,SEA,Seattle,Washington
+Los Angeles International Airport,LAX,Los Angeles,Nevada

@@ -1,4 +1,4 @@
-lastName,firstName,member
+lastName,firstName,member,id,memberId,mileage
 Flintstone,Wilma,yes,423,2342,0
 Flintstone,Fred,yes,534,5332,0
 Flintstone,Pebbles,yes,433,3456,0
@@ -7,9 +7,12 @@ Bear,Booboo,yes,245,6432,0
 Rubble,Barney,yes,999,5356,0
 Rubble,Betty,yes,800,4357,0
 Rubble,Bambam,no,654,2222,0
-Robby,Bobby,no,659,-1,-1
+Robby,Bobby,no,659,-1,0
 Karani,Aryan,yes,494,2347,0
 T,Emma,yes,927,3804,0
-D,Adhithya,no,551,-1,-1
+D,Adhithya,no,551,-1,0
 Miao,Leo,yes,177,5704,0
-sdhasudhssad,Hjfhduud,no,507,-1,-1
+sdhasudhssad,Hjfhduud,no,507,-1,0
+P,Kuvam,yes,803,8988,0
+H,A,no,285,-1,-1
+Doe,Bob,yes,162,3127,0
