@@ -23,7 +23,7 @@ public class CSVReading {
             flights.add(new Flight(Integer.parseInt(nextRecord[0]), getAirportFromSymbol(nextRecord[1], airportList), nextRecord[2], new FlightDate(LocalDateTime.parse(nextRecord[3])), new FlightDate(LocalDateTime.parse(nextRecord[4])), Integer.parseInt(nextRecord[5])));
             int flightNumber = Integer.parseInt(nextRecord[0]);
             Airport departure = getAirportFromSymbol(nextRecord[1], airportList);
-            Airport arrival = getAirportFromSymbol(nextRecord[2], airportList)
+            Airport arrival = getAirportFromSymbol(nextRecord[2], airportList);
             FlightDate departureDate = new FlightDate(LocalDateTime.parse(nextRecord[3]));
             FlightDate arrivalDate = new FlightDate(LocalDateTime.parse(nextRecord[4]));
             int capacity = Integer.parseInt(nextRecord[5]);

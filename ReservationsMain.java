@@ -166,6 +166,7 @@ public class ReservationsMain {
         continuePoint:
 
         while (true) {
+        ArrayList<Flight> list;
             System.out.println("Flight Management\n"
                     + "(A) Print in Alphabetical order\n(B) Search for a flight number\n(C) search for a flight name\n(D) create a new flight\n(E) delete flight\n(Q) cancel\n");
             System.out.print("Select: ");
@@ -176,7 +177,7 @@ public class ReservationsMain {
             switch (choice) {
                 case 'a':
                     System.out.println();
-                    ArrayList<Flight> list = (ArrayList) flightList.clone();
+                     list = (ArrayList) flightList.clone();
 
                     list.sort(flightComparaer);
                     for (int i = 0; i < list.size(); i++) {
@@ -212,6 +213,7 @@ public class ReservationsMain {
                     break;
 
                 case 'd':
+                    try{
                     System.out.println("AIRPORTS");
                     System.out.println("--------");
                     for (Airport a : airportList) {
@@ -261,8 +263,23 @@ public class ReservationsMain {
                     String[] append = { max + "", de.getSymbol(), ar.getSymbol(), depp.toString(), arrr.toString(),
                             cap + "" };
                     addCSVLine("Flights.csv", append);
+                    }
+                    catch(Exception e){
+                     System.out.println("\nYou entered invalid data \n");
+                     KB.nextLine();
+                    }
                     break;
                 case 'e':
+                
+                    System.out.println();
+                    list = (ArrayList) flightList.clone();
+
+                    list.sort(flightComparaer);
+                    for (int i = 0; i < list.size(); i++) {
+                        System.out.println(list.get(i));
+                    }
+                    System.out.println();
+
                     System.out.print("Number of flight to delete: ");
                     int num2 = KB.nextInt();
                     ArrayList<Flight> flightData = (ArrayList) flightList.clone();
@@ -317,6 +334,7 @@ public class ReservationsMain {
                     }
                     break;
                 case 'b':
+                    try{
                     System.out.print("Enter reservation number: ");
                     int choiceN = KB.nextInt();
                     System.out.println();
@@ -326,6 +344,11 @@ public class ReservationsMain {
                         }
                     }
                     System.out.println();
+                    }
+                    catch(Exception e){
+                     System.out.println("\nYou entered invalid data \n");
+                     KB.nextLine();
+                    }
                     break;
                 case 'c':
                     System.out.print("Name in reservation");
@@ -355,6 +378,7 @@ public class ReservationsMain {
                     break;
 
                 case 'd':
+                    try{
                     reservationList.add(new Reservation());
                     for (Reservation r: reservationList) {
 
@@ -460,6 +484,11 @@ public class ReservationsMain {
                     System.out.println("UPDATED RESERVATIONS");
                     getPassengers(passengerList);
                     getReservations(reservationList);
+                    }
+                    catch(Exception e){
+                     System.out.println("\nYou entered invalid data \n");
+                     KB.nextLine();
+                    }
                     break;
                 case 'e':
                     list.sort((a1, a2) -> a1.getPassengers().toString().compareTo(a2.getPassengers().toString()));
